@@ -1,0 +1,98 @@
+@startuml BookBus
+
+left to right direction
+
+actor "Customer" as C
+actor "Admin" as A
+actor "Visitor" as V
+
+rectangle busbook{
+    usecase "Search Trip" as U1
+    usecase "Book Trip" as U2
+    usecase "Make Payment" as U3
+    usecase "View Bookings" as U4
+
+    usecase "Manage Trips" as U5
+        usecase "Create Trip "as U6
+        usecase "View Trips" as U7
+        usecase "Update Trip" as U8
+        usecase "Delete Trip" as U9
+
+    usecase "Manage Cities" as U10
+        usecase "Create City" as U11
+        usecase "View Cities" as U12
+        usecase "Update City" as U13
+        usecase "Delete City" as U14
+
+    usecase "Manage Companies" as U15
+        usecase "Create Company" as U16
+        usecase "View Companies" as U17
+        usecase "Update Company" as U18
+        usecase "Delete Company" as U19
+    
+    usecase "Manage Offers" as U24
+        usecase "Create Offer" as U25
+        usecase "View Offers" as U26
+        usecase "Update Offer" as U27
+        usecase "Delete Offer" as U28
+    
+    usecase "View All bookings" as U20
+
+    usecase "View Offers" as U21
+
+    usecase "Authentification" as U22
+
+    usecase "Cancel booking" as U23
+
+    C --> U1
+    C --> U2
+    C --> U3
+    C --> U4
+
+    A --> U5
+    U5 <|-- U6
+    U5 <|-- U7
+    U5 <|-- U8
+    U5 <|-- U9
+
+    A --> U10
+    U10 <|-- U11
+    U10 <|-- U12
+    U10 <|-- U13
+    U10 <|-- U14
+
+    A --> U15
+    U15 <|-- U16
+    U15 <|-- U17
+    U15 <|-- U18
+    U15 <|-- U19
+
+    A --> U24
+    U24 <|-- U25
+    U24 <|-- U26
+    U24 <|-- U27
+    U24 <|-- U28
+
+    A --> U20
+
+    V --> U21
+
+    U1 ..> U22 : <<include>>
+    U3 ..> U22 : <<include>>
+    U4 ..> U22 : <<include>>
+    U24 ..> U22 : <<include>>
+    
+    U5 ..> U22 : <<include>>
+    U10 ..> U22 : <<include>>
+    U15 ..> U22 : <<include>>
+    U20 ..> U22 : <<include>>
+    
+
+    U2 ..> U3 : <<include>>
+
+    U23 .> U4 : <<extends>>
+
+    V <|-- C
+}
+
+@enduml

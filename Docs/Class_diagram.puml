@@ -1,0 +1,119 @@
+@startuml BookBusClassDiagram
+
+skinparam classAttributeIconSize 0
+
+abstract class User {
+    - id: int
+    - name: string
+    - email: string
+    - password: string
+    + getRole()
+}
+
+class Passanger {
+    + bookTrip()
+    + viewBookings()
+}
+
+class Admin {
+    + manageTrips()
+    + manageCities()
+    + manageCompanies()
+}
+
+User <|-- Passanger
+User <|-- Admin
+
+
+class Booking {
+    - id: int
+    - departureCityId: int
+    - arrivalCityId: int
+    - totalPrice: decimal
+    - status: enum (pending, paid, cancelled)
+    - bookingDate: datetime
+    + confirm()
+    + cancel()
+}
+
+class Trip {
+    - id: int
+    - departureTime: datetime
+    - arrivalTime: datetime
+    - basePrice: decimal
+    - totalSeats: int
+    + checkAvailability()
+    + calculatePrice()
+}
+
+class BusCompany {
+    - id: int
+    - name: string
+    - contactEmail: string
+    - phone: string
+    + addTrip()
+}
+
+class Route {
+    - id: int
+    - name: string
+    + addStop()
+}
+
+class RouteStop {
+    - id: int
+    - stopOrder: int
+}
+
+class City {
+    - id: int
+    - name: string
+}
+
+class Seat {
+    - id: int
+    - seatNumber: string
+}
+
+class TripSeat {
+    - id: int
+    - status: enum (available, reserved, booked)
+    + reserve()
+    + release()
+}
+
+class BookingSeat {
+    - id: int
+}
+
+class Payment {
+    - id: int
+    - amount: decimal
+    - method: enum (card, cash, online)
+    - status: enum (pending, completed, failed)
+    - paidAt: datetime
+    + process()
+}
+
+
+
+Passanger "1" -- "0..*" Booking : makes
+Trip "1" -- "0..*" Booking : has
+Booking "1" -- "1" Payment : paid_by
+
+Route "1" -- "0..*" Trip : schedules
+BusCompany "1" -- "0..*" Trip : operates
+
+Route "1" -- "0..*" RouteStop : contains
+City "1" -- "0..*" RouteStop : appears_in
+
+Trip "1" -- "0..*" TripSeat : generates
+Seat "1" -- "0..*" TripSeat : defines
+
+Booking "1" -- "0..*" BookingSeat : includes
+TripSeat "1" -- "0..*" BookingSeat : reserved_in
+
+Booking "0..*" --> "1" City : departure
+Booking "0..*" --> "1" City : arrival
+
+@enduml

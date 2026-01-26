@@ -1,0 +1,98 @@
+erDiagram
+    User{
+       int id PK
+       string name
+       string email
+       string password
+       enum role "['admin','passanger']"
+    }
+
+    City{
+        int id PK
+        string name
+    }
+    
+    Bus_company{
+        int id PK
+        string name
+        string contact_email
+        string phone
+    }
+
+    Route{
+        int id PK
+        string name
+    }
+
+    Route_stops{
+        int id PK
+        int route_id FK
+        int city_id FK
+        int stop_order
+    }
+
+    Trip{
+        int id PK
+        int route_id FK
+        int company_id FK
+        datetime departure_time
+        datetime arrival_time
+        decimal base_price 
+        int total_seats
+    }
+
+    Booking{
+        int id PK 
+        int user_id FK
+        int trip_id FK
+        int departure_city_id FK
+        int arrival_city_id FK
+        int seats_booked
+        decimal total_price
+        enum status "['pending', 'paid', 'cancelled']"
+        datetime booking_date
+
+    }
+
+    Seats{
+        int id PK
+        int seat_number
+    }
+
+    Trip_seats{
+        int id PK
+        int trip_id FK
+        int seat_id FK
+        string status "['available', 'reserved', 'booked']"
+    }
+
+    Booking_seats{
+        int id PK
+        int booking_id FK 
+        int trip_seat_id FK 
+    }
+
+    Payment{
+        int id PK
+        int booking_id PK
+        decimal amount
+        enum payment_method "['card','cash','online']"
+        string status "['pending','completed','failed']"
+        datetime paid_at
+
+    }
+
+    User ||--o{ Booking : makes
+    Route ||--o{ Route_stops : contains
+    City ||--o{ Route_stops : appears_in
+    Route ||--o{ Trip : schedules
+    Bus_company ||--o{ Trip : operates
+    Trip ||--o{ Booking : has
+    Booking ||--|| Payment : paid_by
+    Trip ||--o{ Trip_seats : generates
+    Seats ||--o{ Trip_seats : defines
+    Booking ||--o{ Booking_seats : includes
+    Trip_seats ||--o{ Booking_seats : reserved_in
+    City ||--o{ Booking : departure_city
+    City ||--o{ Booking : arrival_city
+
