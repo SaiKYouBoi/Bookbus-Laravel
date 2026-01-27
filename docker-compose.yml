@@ -5,6 +5,7 @@ services:
     container_name: php
     volumes:
       - "${LOCAL_PATH}:/var/www/html"
+    user: "1000:1000"
     depends_on:
       - postgres
 
