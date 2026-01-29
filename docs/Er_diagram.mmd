@@ -1,48 +1,52 @@
 erDiagram
-    User{
-       int id PK
-       string name
-       string email
-       string password
-       enum role "['admin','passanger']"
+    User {
+        int id PK
+        string name
+        string email
+        string password
+        string phonenumber
+        enum role "['admin','passanger']"
     }
-
-    City{
+    City {
         int id PK
         string name
     }
-    
-    Bus_company{
+    Bus_company {
         int id PK
         string name
         string contact_email
         string phone
     }
-
-    Route{
+    Route {
         int id PK
         string name
     }
-
-    Route_stops{
+    Route_stops {
         int id PK
         int route_id FK
-        int city_id FK
+        int station_id FK
         int stop_order
     }
-
-    Trip{
+    Trip {
         int id PK
         int route_id FK
         int company_id FK
+        int driver_id FK
         datetime departure_time
         datetime arrival_time
-        decimal base_price 
+        decimal base_price
         int total_seats
     }
-
-    Booking{
-        int id PK 
+    Trip_segments {
+        int id PK
+        int trip_id FK
+        int from_stop_id FK
+        int to_stop_id FK
+        decimal price
+        decimal promotion
+    }
+    Booking {
+        int id PK
         int user_id FK
         int trip_id FK
         int departure_city_id FK
@@ -51,40 +55,51 @@ erDiagram
         decimal total_price
         enum status "['pending', 'paid', 'cancelled']"
         datetime booking_date
-
     }
-
-    Seats{
+    Seats {
         int id PK
         int seat_number
     }
-
-    Trip_seats{
+    Trip_seats {
         int id PK
         int trip_id FK
         int seat_id FK
-        string status "['available', 'reserved', 'booked']"
     }
-
-    Booking_seats{
+    Booking_seats {
         int id PK
-        int booking_id FK 
-        int trip_seat_id FK 
+        int booking_id FK
+        int trip_seat_id FK
+        int start_stop_order
+        int end_stop_order
     }
-
-    Payment{
+    Payment {
         int id PK
-        int booking_id PK
+        int booking_id FK
         decimal amount
         enum payment_method "['card','cash','online']"
         string status "['pending','completed','failed']"
         datetime paid_at
-
+    }
+    Driver {
+        int id PK
+        string name
+        string phone
+    }
+    Station {
+        int id PK
+        int city_id FK
+        string name
+        string address
+    }
+    Service {
+        int id PK
+        string name
+        int bus_id FK
     }
 
     User ||--o{ Booking : makes
     Route ||--o{ Route_stops : contains
-    City ||--o{ Route_stops : appears_in
+    Station ||--o{ Route_stops : appears_in
     Route ||--o{ Trip : schedules
     Bus_company ||--o{ Trip : operates
     Trip ||--o{ Booking : has
@@ -92,7 +107,12 @@ erDiagram
     Trip ||--o{ Trip_seats : generates
     Seats ||--o{ Trip_seats : defines
     Booking ||--o{ Booking_seats : includes
-    Trip_seats ||--o{ Booking_seats : reserved_in
+    Trip_seats ||--o{ Booking_seats : occupied_during
     City ||--o{ Booking : departure_city
     City ||--o{ Booking : arrival_city
-
+    Driver ||--o{ Trip: contains
+    City ||--o{ Station: contains
+    Bus_company ||--o{ Service: offers
+    Trip ||--o{ Trip_segments : contains
+    Route_stops ||--o{ Trip_segments : from_stop
+    Route_stops ||--o{ Trip_segments : to_stop
