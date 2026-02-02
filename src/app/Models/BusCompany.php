@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class BusCompany extends Model
 {
     use HasFactory;
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'company_id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'bus_id');
+    }
 }
