@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Station extends Model
 {
     use HasFactory;
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function routeStops()
+    {
+        return $this->hasMany(RouteStop::class);
+    }
 }
