@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Route extends Model
 {
     use HasFactory;
+
+    public function routeStops()
+    {
+        return $this->hasMany(RouteStop::class);
+    }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }
