@@ -54,12 +54,14 @@
     <header
         class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="{{ url('/') }}">
             <div class="flex items-center gap-2">
-                <div class="bg-primary text-white p-2 rounded-lg">
-                    <span class="material-symbols-outlined block">directions_bus</span>
+                    <div class="bg-primary text-white p-2 rounded-lg">
+                        <span class="material-symbols-outlined block">directions_bus</span>
+                    </div>
+                    <h1 class="text-2xl font-black tracking-tight text-primary">BookBus</h1>
                 </div>
-                <h1 class="text-2xl font-black tracking-tight text-primary">BookBus</h1>
-            </div>
+            </a>
             <nav class="hidden md:flex items-center gap-8">
                 <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Destinations</a>
                 <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Schedules</a>

@@ -71,7 +71,7 @@
                         <button
                             class="w-full h-14 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all">
                             <span class="material-symbols-outlined">search</span>
-                            Search Buses
+                            Search
                         </button>
                     </div>
                 </div>
@@ -239,7 +239,5 @@
         </div>
     </div>
 </main>
-
-
 
 @include('layouts.footer')
