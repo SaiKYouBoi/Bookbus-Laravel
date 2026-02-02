@@ -3,9 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('home', function () {
+Route::get('/home', function () {
     return view('home');
-});
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/', function () {
     return view('home');
