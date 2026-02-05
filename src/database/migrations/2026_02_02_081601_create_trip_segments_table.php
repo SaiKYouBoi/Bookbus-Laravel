@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('from_stop_id')->constrained('route_stops')->cascadeOnDelete();
             $table->foreignId('to_stop_id')->constrained('route_stops')->cascadeOnDelete();
             $table->decimal('price', 10, 2);
-            $table->decimal('promotion', 10, 2)->nullable();
+            $table->decimal('discount', 10, 2)->nullable();
             $table->dateTime('departure_time');
             $table->dateTime('arrival_time');
             $table->timestamps();
