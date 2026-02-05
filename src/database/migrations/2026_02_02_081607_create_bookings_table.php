@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('trip_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('departure_city_id')->constrained('cities');
-            $table->foreignId('arrival_city_id')->constrained('cities');
             $table->integer('seats_booked');
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
