@@ -21,11 +21,9 @@ class SeatFactory extends Factory
 
     public function definition()
     {
-        // Pick a random city from the database
-        $city = City::inRandomOrder()->first();
 
         return [
-            'city_id' => $city->id,
+            'city_id' => City::inRandomOrder()->value('id'),
             'name' => $this->faker->company . ' Station',
             'address' => $this->faker->address,
         ];
