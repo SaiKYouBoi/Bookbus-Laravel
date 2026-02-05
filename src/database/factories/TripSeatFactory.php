@@ -19,8 +19,8 @@ class TripSeatFactory extends Factory
     public function definition(): array
     {
         return [
-            'trip_id' => Trip::factory(),
-            'seat_id' => Seat::factory(),
+            'trip_id' => Trip::inRandomOrder()->value('id'),
+            'seat_id' => Seat::inRandomOrder()->value('id'),
         ];
     }
 }
