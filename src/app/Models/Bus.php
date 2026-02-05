@@ -11,7 +11,7 @@ class Bus extends Model
 
     public function trips()
     {
-        return $this->hasMany(Trip::class, 'company_id');
+        return $this->hasMany(Trip::class, 'bus_id');
     }
 
     public function services()
