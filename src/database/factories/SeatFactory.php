@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
+use App\Models\Seat;
+use App\Models\Station;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +17,17 @@ class SeatFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    protected $model = Station::class;
+
+    public function definition()
     {
+        // Pick a random city from the database
+        $city = City::inRandomOrder()->first();
+
         return [
-            'seat_number' => fake()->numberBetween(1, 50),
+            'city_id' => $city->id,
+            'name' => $this->faker->company . ' Station',
+            'address' => $this->faker->address,
         ];
     }
 }
