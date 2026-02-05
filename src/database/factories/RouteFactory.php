@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\BusCompany;
-use App\Models\Driver;
 use App\Models\Route;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,19 +15,19 @@ class RouteFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        $departure = fake()->dateTimeBetween('+1 days', '+1 month');
-        $arrival = (clone $departure)->modify('+3 hours');
+    protected $model = Route::class;
 
+    public function definition()
+    {
         return [
-            'route_id' => Route::factory(),
-            'company_id' => BusCompany::factory(),
-            'driver_id' => Driver::factory(),
-            'departure_time' => $departure,
-            'arrival_time' => $arrival,
-            'base_price' => fake()->randomFloat(2, 50, 300),
-            'total_seats' => 40,
+            'name' => $this->faker->unique()->randomElement([
+                'Rabat → Casablanca',
+                'Rabat → Marrakech',
+                'Casablanca → Agadir',
+                'Tangier → Marrakech',
+                'Fes → Casablanca',
+                'Agadir → Rabat',
+            ]),
         ];
     }
 }
