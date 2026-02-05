@@ -18,8 +18,8 @@ class StationFactory extends Factory
     public function definition(): array
     {
         return [
-            'city_id' => City::factory(),
-            'name' => fake()->streetName(),
+            'city_id' => City::inRandomOrder()->value('id'),
+            'name' => fake()->streetName() . ' Station',
             'address' => fake()->address(),
         ];
     }
