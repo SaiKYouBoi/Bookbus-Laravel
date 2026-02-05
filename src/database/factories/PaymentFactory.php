@@ -18,7 +18,7 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'booking_id' => Booking::factory(),
+            'booking_id' => Booking::inRandomOrder()->value('id'),
             'amount' => fake()->randomFloat(2, 50, 500),
             'payment_method' => fake()->randomElement(['card', 'cash', 'online']),
             'status' => fake()->randomElement(['pending', 'completed']),
