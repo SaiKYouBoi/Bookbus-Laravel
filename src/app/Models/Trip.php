@@ -16,7 +16,7 @@ class Trip extends Model
 
     public function company()
     {
-        return $this->belongsTo(BusCompany::class, 'company_id');
+        return $this->belongsTo(Bus::class, 'company_id');
     }
 
     public function driver()
