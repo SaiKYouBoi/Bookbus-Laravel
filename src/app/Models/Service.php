@@ -11,6 +11,6 @@ class Service extends Model
 
     public function busCompany()
     {
-        return $this->belongsTo(BusCompany::class, 'bus_id');
+        return $this->belongsTo(Bus::class, 'bus_id');
     }
 }
