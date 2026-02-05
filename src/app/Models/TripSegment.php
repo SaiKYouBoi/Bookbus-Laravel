@@ -18,7 +18,7 @@ class TripSegment extends Model
     {
         return $this->belongsTo(RouteStop::class, 'from_stop_id');
     }
-
+    
     public function toStop()
     {
         return $this->belongsTo(RouteStop::class, 'to_stop_id');
