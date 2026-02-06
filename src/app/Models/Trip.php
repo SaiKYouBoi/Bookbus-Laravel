@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'departure_time' => 'datetime',
+        'arrival_time' => 'datetime',
+    ];
 
     public function route()
     {
@@ -37,5 +41,10 @@ class Trip extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function routeStops()
+    {
+        return $this->hasMany(RouteStop::class);
     }
 }

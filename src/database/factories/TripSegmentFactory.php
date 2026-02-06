@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\RouteStop;
 use App\Models\Trip;
 use App\Models\TripSegment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,41 +22,53 @@ class TripSegmentFactory extends Factory
 
     public function definition()
     {
-        // Pick a random trip
+
         $trip = Trip::inRandomOrder()->first();
 
-        // Get all stops for the trip's route, ordered by stop_order
+        // Safety: no trip found
+        if (!$trip) {
+            return [];
+        }
+
         $stops = RouteStop::where('route_id', $trip->route_id)
             ->orderBy('stop_order')
             ->get();
 
-        // If less than 2 stops, cannot create a segment
+        // Safety: not enough stops to create a segment
         if ($stops->count() < 2) {
-            return []; // or throw exception depending on your seeding strategy
+            return [];
         }
 
-        // Pick a random "from" stop, ensure there is a "to" stop after it
+        // Pick valid from & to stops
         $fromIndex = rand(0, $stops->count() - 2);
         $toIndex = rand($fromIndex + 1, $stops->count() - 1);
 
         $fromStop = $stops[$fromIndex];
         $toStop = $stops[$toIndex];
 
-        // Calculate departure and arrival times proportionally
-        $tripDuration = $trip->arrival_time->getTimestamp() - $trip->departure_time->getTimestamp();
-        $segmentDuration = ($toIndex - $fromIndex) / ($stops->count() - 1) * $tripDuration;
+        // Ensure Carbon instances
+        $departureTime = Carbon::parse($trip->departure_time);
+        $arrivalTime = Carbon::parse($trip->arrival_time);
 
-        $departure = (clone $trip->departure_time)->modify('+' . (($fromIndex) / ($stops->count() - 1) * $tripDuration) . ' seconds');
-        $arrival = (clone $departure)->modify('+' . $segmentDuration . ' seconds');
+        $tripDuration = $arrivalTime->timestamp - $departureTime->timestamp;
+
+        $segmentDuration = (($toIndex - $fromIndex) / ($stops->count() - 1)) * $tripDuration;
+
+        $segmentDeparture = (clone $departureTime)
+            ->addSeconds((($fromIndex) / ($stops->count() - 1)) * $tripDuration);
+
+        $segmentArrival = (clone $segmentDeparture)
+            ->addSeconds($segmentDuration);
 
         return [
             'trip_id' => $trip->id,
             'from_stop_id' => $fromStop->id,
             'to_stop_id' => $toStop->id,
-            'departure_time' => $departure,
-            'arrival_time' => $arrival,
+            'departure_time' => $segmentDeparture,
+            'arrival_time' => $segmentArrival,
             'price' => $this->faker->randomFloat(2, 10, 100),
             'discount' => $this->faker->randomFloat(2, 0, 20),
         ];
     }
+
 }
