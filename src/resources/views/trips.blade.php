@@ -33,10 +33,10 @@
                             <label class="text-sm font-bold text-slate-500 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary text-lg">location_on</span> From
                             </label>
-                            <select name="departure_city"
+                            <select name="departure_city_id"
                                 class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl h-14 px-4 text-slate-900 dark:text-white focus:ring-primary focus:border-primary transition-all cursor-pointer">
-                                <option>Departure City</option>
-                                 @foreach($cities as $city)
+                                <option value="{{ 0 }}">Departure City</option>
+                                @foreach($cities as $city)
                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
                                 @endforeach
                             </select>
@@ -45,9 +45,9 @@
                             <label class="text-sm font-bold text-slate-500 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary text-lg">near_me</span> To
                             </label>
-                            <select name="arrival_city"
+                            <select name="arrival_city_id"
                                 class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl h-14 px-4 text-slate-900 dark:text-white focus:ring-primary focus:border-primary transition-all cursor-pointer">
-                                <option>Arrival City</option>
+                                <option value="{{ 0 }}">Arrival City</option>
                                 @foreach($cities as $city)
                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
                                 @endforeach
@@ -60,7 +60,7 @@
                             <div class="relative">
                                 <input
                                     class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl h-14 px-4 text-slate-900 dark:text-white focus:ring-primary focus:border-primary transition-all cursor-pointer"
-                                    type="text" value="Oct 24, 2023" />
+                                    type="date" name="departure_date" />
                                 <span
                                     class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">expand_more</span>
                             </div>
@@ -76,7 +76,108 @@
                 </div>
             </form>
         </div>
+        @if ($trips->isEmpty())
+            <p>No trips found.</p>
+        @else
+        <div class="flex-1 space-y-6 max-w-7xl mx-auto mt-24">
+        @foreach ($trips as $trip)
+        <div
+                class="relative bg-white dark:bg-[#1a1a33] rounded-2xl border border-[#e7e7f3] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow group overflow-visible">
+                <div
+                    class="absolute -top-3 left-1/2 -translate-x-1/2 md:left-auto md:right-[200px] md:translate-x-0 z-10">
+                    {{-- <div
+                        class="bg-[#ef4444] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+                        <span class="material-symbols-outlined text-[14px]">event_seat</span>
+                        <span>12 Seats left</span>
+                    </div> --}}
+                </div>
+                <div class="flex flex-col md:flex-row min-h-[140px]">
+                    <div
+                        class="w-full md:w-[220px] p-6 flex flex-col items-start justify-center gap-4 bg-[#fdfdfd] dark:bg-white/5 rounded-l-2xl">
+                        <div class="flex items-center gap-3 w-full">
+                            <div class="px-2.5 py-1 bg-gray-100 dark:bg-white/10 rounded-md">
+                                <span class="text-[11px] font-bold tracking-tight">Satas</span>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-[#fff7ed] border border-[#ffedd5] text-[#c2410c] text-[11px] font-bold rounded-full">
+                                Comfort
+                            </div>
+                        </div>
+                        <div class="w-32 h-12 flex items-center justify-center">
+                            <div class="w-full h-full bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xl italic"
+                                data-alt="CTM Bus Operator Logo">SATAS</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 px-8 py-6 flex items-center justify-between relative">
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-black tracking-tight">{{ $trip->departure_time->format('H:i') }}</span>
+                            <span class="text-sm font-bold mt-1">Fes</span>
+                            <span class="text-xs text-gray-500 font-medium">Voyageurs Station</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center px-12 relative group/line">
+                            <div
+                                class="absolute inset-x-12 top-1/2 -translate-y-1/2 border-t-2 border-dotted border-gray-300 dark:border-white/20">
+                            </div>
+                            <div
+                                class="relative z-10 bg-white dark:bg-[#1a1a33] px-3 py-1 border border-gray-200 dark:border-white/10 rounded-full">
+                                <span class="text-xs font-bold text-gray-600 dark:text-gray-300">3h 15m</span>
+                            </div>
+                            <div class="absolute right-12 top-1/2 -translate-y-1/2 translate-x-1">
+                                <span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col text-right">
+                            <span class="text-3xl font-black tracking-tight">{{ $trip->arrival_time->format('H:i') }}</span>
+                            <span class="text-sm font-bold mt-1">Casablanca</span>
+                            <span class="text-xs text-gray-500 font-medium">Main Station</span>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full md:w-[200px] p-6 border-t md:border-t-0 md:border-l-2 border-dashed border-gray-200 dark:border-white/10 flex flex-col items-center justify-center gap-4">
+                        <div class="text-center">
+                            <span class="text-xs text-gray-500 font-bold block mb-1">From</span>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-3xl font-black text-[#f97316]">120</span>
+                                <span class="text-lg font-black text-[#f97316]">MAD</span>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary text-white font-bold py-3 px-6 rounded-xl text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+                            Select
+                        </button>
+                    </div>
+                </div>
+            </div>
 
+            @endforeach
+            </div>
+            @endif
+        {{-- @if ($trips->isEmpty())
+            <p>No trips found.</p>
+        @else
+            <table border="1" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th>Trip ID</th>
+                        <th>Bus</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($trips as $trip)
+                        <tr>
+                            <td>{{ $trip->id }}</td>
+                            <td>{{ $trip->company->fleet_code ?? 'N/A' }}</td>
+                            <td>{{ $trip->departure_time->format('Y-m-d H:i') }}</td>
+                            <td>{{ $trip->arrival_time->format('Y-m-d H:i') }}</td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif --}}
     </section>
     <!-- Popular Routes Section -->
     <section class="py-20 px-6 bg-white dark:bg-slate-950">
