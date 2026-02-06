@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bus;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CitySeeder::class,
             StationSeeder::class,
-            BusCompanySeeder::class,
+            BusSeeder::class,
             DriverSeeder::class,
             RouteSeeder::class,
             RouteStopSeeder::class,
