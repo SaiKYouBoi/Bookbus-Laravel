@@ -19,13 +19,10 @@ class BusFactory extends Factory
 
     public function definition()
     {
-        $statuses = ['active', 'maintenance', 'retired'];
-
         return [
             'fleet_code' => 'BUS-' . $this->faker->unique()->numberBetween(1, 999),
             'plate_number' => strtoupper($this->faker->unique()->bothify('???-###-??')),
             'model' => $this->faker->randomElement(['Volvo 9800', 'Mercedes Tourismo', 'Scania Touring']),
-            'status' => $this->faker->randomElement($statuses),
         ];
     }
 }
